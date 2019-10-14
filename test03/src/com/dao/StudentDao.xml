@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.StudentDao">
+<select id="findStudentByName" parameterType="com.po.Student" resultType="com.po.Student">
+select * from students 
+  <where>
+   <if test="name!=null and name!=''">
+    and name like concat('%',#{name},'%')
+   </if>
+   </where>
+</select> 
+
+<insert id="addStudent" parameterType="com.po.Student">
+ insert into students 
+   values(#{id},#{name},#{age},#{gender},#{number},#{address},#{status})
+</insert>
+
+<select id="findStudentById" parameterType="Integer" resultType="com.po.Student">
+    select * from students where id=#{id}
+ </select>
+
+<update id="updateStudent" parameterType="com.po.Student">
+    update students 
+    <set>
+     <if test="name!=null and name!=''"> name=#{name},</if>
+     <if test="age!=null and age!=''">age=#{age},</if>
+     <if test="gender!=''">gender=#{gender},</if>
+     <if test="number!=''">number=#{number},</if>
+     <if test="address!=''">address=#{address},</if>
+     <if test="status!=''">status=#{status},</if>
+    </set>
+     where id=#{id}
+ </update>
+ 
+ <delete id="deleteStudent" parameterType="Integer">
+  delete from students where id=#{id}
+ </delete>
+</mapper>
